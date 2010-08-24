@@ -1,0 +1,14 @@
+<project>
+	<name>Example Project</name>
+	<settings>
+		<defaultWidth>640</defaultWidth>
+		<defaultHeight>480</defaultHeight>
+		<workingDirectory>../</workingDirectory>
+	</settings>
+	<tilesets>
+		<tileset name="tiles" image="tiles.png" tileWidth="16" tileHeight="16" />
+	</tilesets>
+	<layers>
+		<tiles name="stage" gridSize="16" exportTileSize="true" exportTileIDs="true" />
+	</layers>
+</project>
