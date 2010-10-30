@@ -4,29 +4,35 @@ package
 
 	public class OgmoTilemap extends FlxTilemap
 	{
-		public function OgmoTilemap():void
+		[Embed(source="data/collidTiles.png")] private var InvisibleTiles:Class;
+		//[Embed(source="data/tiles.png")] private var ImgTiles:Class;
+
+		public var xml:XML;
+		
+		public function OgmoTilemap(File:String):void
 		{
 			super();
+			xml = new XML(File);
+			width = xml.width;
+			height = xml.height;			
+            FlxU.setWorldBounds(0,0,width,height);
 		}
 		
-		public function loadOgmo(File:String, TileGraphic:Class):FlxTilemap
+		public function loadTilemap(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
 			//load graphics
 			_pixels = FlxG.addBitmap(TileGraphic);
 			
-			//figure out the map dimmesions based on the xml and set variables
-			var xml:XML = new XML(File);
+			var file:XML = Layer;
 			
-			_tileWidth = xml.stage[0].@tileWidth;
-			_tileHeight = xml.stage[0].@tileHeight;
+			//figure out the map dimmesions based on the xml and set variables			
+			_tileWidth = file.@tileWidth;
+			_tileHeight = file.@tileHeight;
 			
-			widthInTiles = xml.width / _tileWidth;
-			heightInTiles = xml.height / _tileHeight;
+			widthInTiles = width / _tileWidth;
+			heightInTiles = height / _tileHeight;
 			
 			totalTiles = widthInTiles * heightInTiles;
-			
-			width = xml.width;
-			height = xml.height;
 			
 			_block.width = _tileWidth;
 			_block.height = _tileHeight;
@@ -43,7 +49,7 @@ package
 			
 			// Set tiles
 			var i:XML
-			for each (i in xml.stage[0].tile)
+			for each (i in file.tile)
 			{
 				this.setTile((i.@x / _tileWidth), (i.@y / _tileHeight), i.@id);
 			}
@@ -59,6 +65,26 @@ package
 			refreshHulls();
 			
 			return this;
+		}
+		
+		public function loadGrid(Layer:XML):FlxTilemap
+		{
+
+			var data:String = Layer.toString();
+			var array:Array = new Array();
+			
+			//find the width in tiles:
+			var l:Array = data.split("\n");
+			var tmpString:String = ""
+			for each(var i:String in l)
+			{
+				tmpString += i;
+			}
+			
+			array = tmpString.split("");
+			data = arrayToCSV(array, widthInTiles);
+			FlxG.log(data);
+			return new FlxTilemap().loadMap(data, InvisibleTiles);
 		}
 	}
 }
