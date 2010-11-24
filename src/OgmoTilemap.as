@@ -4,8 +4,6 @@ package
 
 	public class OgmoTilemap extends FlxTilemap
 	{
-		[Embed(source="data/collidTiles.png")] private var InvisibleTiles:Class;
-		//[Embed(source="data/tiles.png")] private var ImgTiles:Class;
 
 		public var xml:XML;
 		
@@ -67,7 +65,7 @@ package
 			return this;
 		}
 		
-		public function loadGrid(Layer:XML):FlxTilemap
+		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
 
 			var data:String = Layer.toString();
@@ -84,7 +82,7 @@ package
 			array = tmpString.split("");
 			data = arrayToCSV(array, widthInTiles);
 			FlxG.log(data);
-			return new FlxTilemap().loadMap(data, InvisibleTiles);
+			return new FlxTilemap().loadMap(data, TileGraphic);
 		}
 	}
 }
