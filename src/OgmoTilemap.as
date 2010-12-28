@@ -14,7 +14,7 @@ package
 		/*
 		   Load a Tilemap type of layer
 		*/ 
-		public function loadTilemap(Layer:XML, TileGrapgic:Class):OgmoTilemap
+		public function loadTilemap(Layer:XML, TileGraphic:Class):OgmoTilemap
 		{
 		
 			//load graphics
