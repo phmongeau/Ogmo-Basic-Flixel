@@ -9,10 +9,14 @@ package
 		
 		override public function create():void
 		{
+			//Load an Ogmo level File
             var level:OgmoLevel = new OgmoLevel(new Level1);
+            
+            //Load each layers
             var map:FlxTilemap = level.loadTilemap(level.xml.stage[0], ImgTiles);
             var map2:FlxTilemap = level.loadTilemap(level.xml.stage2[0], ImgTiles);
 
+            //add the layers to the state
             add(map);
             add(map2);
 

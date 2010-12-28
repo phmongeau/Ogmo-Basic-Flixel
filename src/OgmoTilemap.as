@@ -4,13 +4,19 @@ package
 
 	public class OgmoTilemap extends FlxTilemap
 	{		
-		public function OgmoTilemap( Width:int, Height:int,
-									 Layer:XML, TileGraphic:Class ):void
+		public function OgmoTilemap(Width:int, Height:int):void
 		{
 			super();
 			width = Width;
 			height = Height;			
-
+		}
+		
+		/*
+		   Load a Tilemap type of layer
+		*/ 
+		public function loadTilemap(Layer:XML, TileGrapgic:Class):OgmoTilemap
+		{
+		
 			//load graphics
 			_pixels = FlxG.addBitmap(TileGraphic);
 			
@@ -53,7 +59,35 @@ package
 			//insert code later...
 			
 			//Refresh collison data
-			refreshHulls();			
+			refreshHulls();
+			return this;
+		}
+		
+		/*
+		   Load a grid type of layer.
+		   
+		   If you want to use the grid as an invisible tilemap to use it for
+		   collision, provide a transparent png as TileGraphic.
+		*/
+		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
+		{
+
+			var data:String = Layer.toString();
+			var array:Array = new Array();
+			
+			var l:Array = data.split("\n");
+			
+			widthInTiles = l[0].length();
+			
+			var tmpString:String = ""
+			for each(var i:String in l)
+			{
+				tmpString += i;
+			}
+			
+			array = tmpString.split("");
+			data = arrayToCSV(array, widthInTiles);
+			return new FlxTilemap().loadMap(data, TileGraphic);
 		}		
 	}
 }

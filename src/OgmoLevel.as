@@ -18,31 +18,23 @@ package
             FlxU.setWorldBounds(0,0,width,height);
 		}
 		
+		/*
+		   Load a Tilemap type of layer
+		*/ 
 		public function loadTilemap(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
-			//var tilemap:OgmoTilemap = new OgmoTilemap(width, height, Layer, TileGraphic);
-			return new OgmoTilemap(width, height, Layer, TileGraphic);
+			return new OgmoTilemap(width, height).loadTilemap(Layer, TileGraphic);
 		}
+
 		/*
+		   Load a grid type of layer.
+		   
+		   If you want to use the grid as an invisible tilemap to use it for
+		   collision, provide a transparent png as TileGraphic.
+		*/		
 		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
-
-			var data:String = Layer.toString();
-			var array:Array = new Array();
-			
-			//find the width in tiles:
-			var l:Array = data.split("\n");
-			var tmpString:String = ""
-			for each(var i:String in l)
-			{
-				tmpString += i;
-			}
-			
-			array = tmpString.split("");
-			data = arrayToCSV(array, widthInTiles);
-			FlxG.log(data);
-			return new FlxTilemap().loadMap(data, TileGraphic);
+			return new OgmoTilemap(width, height).loadGrid(Layer, TileGraphic);			
 		}
-		*/
 	}
 }
