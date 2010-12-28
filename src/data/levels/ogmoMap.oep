@@ -10,5 +10,6 @@
 	</tilesets>
 	<layers>
 		<tiles name="stage" gridSize="16" exportTileSize="true" exportTileIDs="true" />
+		<tiles name="stage2" gridSize="16" exportTileSize="true" exportTileIDs="true" />
 	</layers>
 </project>

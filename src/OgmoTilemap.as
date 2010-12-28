@@ -3,21 +3,14 @@ package
 	import org.flixel.*;
 
 	public class OgmoTilemap extends FlxTilemap
-	{
-
-		public var xml:XML;
-		
-		public function OgmoTilemap(File:String):void
+	{		
+		public function OgmoTilemap( Width:int, Height:int,
+									 Layer:XML, TileGraphic:Class ):void
 		{
 			super();
-			xml = new XML(File);
-			width = xml.width;
-			height = xml.height;			
-            FlxU.setWorldBounds(0,0,width,height);
-		}
-		
-		public function loadTilemap(Layer:XML, TileGraphic:Class):FlxTilemap
-		{
+			width = Width;
+			height = Height;			
+
 			//load graphics
 			_pixels = FlxG.addBitmap(TileGraphic);
 			
@@ -60,29 +53,7 @@ package
 			//insert code later...
 			
 			//Refresh collison data
-			refreshHulls();
-			
-			return this;
-		}
-		
-		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
-		{
-
-			var data:String = Layer.toString();
-			var array:Array = new Array();
-			
-			//find the width in tiles:
-			var l:Array = data.split("\n");
-			var tmpString:String = ""
-			for each(var i:String in l)
-			{
-				tmpString += i;
-			}
-			
-			array = tmpString.split("");
-			data = arrayToCSV(array, widthInTiles);
-			FlxG.log(data);
-			return new FlxTilemap().loadMap(data, TileGraphic);
-		}
+			refreshHulls();			
+		}		
 	}
 }

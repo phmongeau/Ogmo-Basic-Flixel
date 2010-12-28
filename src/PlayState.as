@@ -9,10 +9,12 @@ package
 		
 		override public function create():void
 		{
-            var level:OgmoTilemap = new OgmoTilemap(new Level1);
+            var level:OgmoLevel = new OgmoLevel(new Level1);
             var map:FlxTilemap = level.loadTilemap(level.xml.stage[0], ImgTiles);
+            var map2:FlxTilemap = level.loadTilemap(level.xml.stage2[0], ImgTiles);
 
             add(map);
+            add(map2);
 
 		}
 	}
