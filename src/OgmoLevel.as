@@ -21,9 +21,10 @@ package
 		/*
 		   Load a Tilemap type of layer
 		*/ 
-		public function loadTilemap(Layer:XML, TileGraphic:Class):FlxTilemap
+		public function loadTilemap(Layer:String, TileGraphic:Class):FlxTilemap
 		{
-			return new OgmoTilemap(width, height).loadTilemap(Layer, TileGraphic);
+            var l:XML = getElementByName(xml, Layer);
+			return new OgmoTilemap(width, height).loadTilemap(l, TileGraphic);
 		}
 
 		/*
@@ -32,9 +33,15 @@ package
 		   If you want to use the grid as an invisible tilemap to use it for
 		   collision, provide a transparent png as TileGraphic.
 		*/		
-		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
+		public function loadGrid(Layer:String, TileGraphic:Class):FlxTilemap
 		{
-			return new OgmoTilemap(width, height).loadGrid(Layer, TileGraphic);			
+            var l:XML = getElementByName(xml, Layer);
+			return new OgmoTilemap(width, height).loadGrid(l, TileGraphic);			
 		}
+
+        public function getElementByName(data:XML, name:String):XML
+        {
+            return new XML(data.descendants(name).toXMLString());
+        }
 	}
 }
