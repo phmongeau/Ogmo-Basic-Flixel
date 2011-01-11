@@ -15,7 +15,7 @@ package
 			xml = new XML(File);
 			width = xml.width;
 			height = xml.height;			
-            FlxU.setWorldBounds(0,0,width,height);
+			FlxU.setWorldBounds(0,0,width,height);
 		}
 		
 		/*
@@ -23,7 +23,7 @@ package
 		*/ 
 		public function loadTilemap(Layer:String, TileGraphic:Class):FlxTilemap
 		{
-            var l:XML = getElementByName(xml, Layer);
+			var l:XML = getElementByName(xml, Layer);
 			return new OgmoTilemap(width, height).loadTilemap(l, TileGraphic);
 		}
 
@@ -35,13 +35,13 @@ package
 		*/		
 		public function loadGrid(Layer:String, TileGraphic:Class):FlxTilemap
 		{
-            var l:XML = getElementByName(xml, Layer);
+			var l:XML = getElementByName(xml, Layer);
 			return new OgmoTilemap(width, height).loadGrid(l, TileGraphic);			
 		}
 
-        public function getElementByName(data:XML, name:String):XML
-        {
-            return new XML(data.descendants(name).toXMLString());
-        }
+		public function getElementByName(data:XML, name:String):XML
+		{
+			return new XML(data.descendants(name).toXMLString());
+		}
 	}
 }
