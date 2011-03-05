@@ -16,6 +16,7 @@ package
 			width = xml.width;
 			height = xml.height;			
 			FlxU.setWorldBounds(0,0,width,height);
+			FlxG.followBounds(0,0,width,height);
 		}
 		
 		/*

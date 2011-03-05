@@ -46,13 +46,31 @@ package
 			// Not sure yet
 			_rects = new Array(totalTiles);
 			
+			// Set rectTiles
+			for each (i in file.rect)
+			{
+				var startX:uint = i.@x;
+				var startY:uint = i.@y;
+				var tw:uint = i.@w / _tileWidth;
+				var th:uint = i.@h / _tileHeight;
+
+				for (var w:uint = 0; w < tw; ++w)
+				{
+					for (var h:uint = 0; h < th; ++h)
+					{
+						this.setTile((startX + (w*_tileWidth))/_tileWidth, (startY + (h*_tileHeight))/_tileHeight, i.@id, true);
+					}
+				}
+
+			}
+
 			// Set tiles
 			var i:XML
 			for each (i in file.tile)
 			{
 				this.setTile((i.@x / _tileWidth), (i.@y / _tileHeight), i.@id, true);
 			}
-			
+						
 			// Alocate the buffer to hold the rendered tiles
 			var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
 			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;
