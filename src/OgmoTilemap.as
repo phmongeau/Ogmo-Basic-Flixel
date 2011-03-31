@@ -17,7 +17,7 @@ package
 		*/ 
 		public function loadTilemap(Layer:XML, TileGraphic:Class):OgmoTilemap
 		{
-			refresh = true;
+			dirty = true;
 
 			//load graphics
 			_pixels = FlxG.addBitmap(TileGraphic);
@@ -85,8 +85,8 @@ package
 			if(_screenCols > widthInTiles)
 				_screenCols = widthInTiles;
 			
-			_bbKey = String(TileGraphic);
-			generateBoundingTiles();
+			//_bbKey = String(TileGraphic);
+			//generateBoundingTiles();
 			refreshHulls();
 
 			_flashRect.x = 0;
