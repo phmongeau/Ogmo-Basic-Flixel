@@ -17,10 +17,10 @@ package
 		*/ 
 		public function loadTilemap(Layer:XML, TileGraphic:Class):OgmoTilemap
 		{
-			dirty = true;
+			//refresh = true;
 
 			//load graphics
-			_pixels = FlxG.addBitmap(TileGraphic);
+			_tiles = FlxG.addBitmap(TileGraphic);
 			
 			var file:XML = Layer;
 			
@@ -74,7 +74,7 @@ package
 			// Alocate the buffer to hold the rendered tiles
 			var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
 			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;
-			_buffer = new BitmapData(bw,bh,true,0);
+			//_buffer = new BitmapData(bw,bh,true,0);
 			
 			
 			//Update screen vars
@@ -89,10 +89,10 @@ package
 			//generateBoundingTiles();
 			refreshHulls();
 
-			_flashRect.x = 0;
-			_flashRect.y = 0;
-			_flashRect.width = _buffer.width;
-			_flashRect.height = _buffer.height;
+			//_flashRect.x = 0;
+			//_flashRect.y = 0;
+			//_flashRect.width = _buffer.width;
+			//_flashRect.height = _buffer.height;
 
 			
 			return this;

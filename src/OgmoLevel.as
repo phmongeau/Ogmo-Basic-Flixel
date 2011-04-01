@@ -15,8 +15,11 @@ package
 			xml = new XML(File);
 			width = xml.width;
 			height = xml.height;			
-			FlxU.setWorldBounds(0,0,width,height);
-			FlxG.followBounds(0,0,width,height);
+			//FlxU.setWorldBounds(0,0,width,height);
+			//FlxU.worldBounds.x = FlxU.worldBounds.y = 0
+			//FlxU.worldBounds.width = width;
+			//FlxU.worldBounds.height = height;
+			FlxG.camera.setBounds(0,0,width,height, true);
 		}
 		
 		/*
