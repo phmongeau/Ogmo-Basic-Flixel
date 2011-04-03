@@ -16,6 +16,7 @@ package
 			add(t);
 			
 			FlxG.mouse.show();
+			FlxG.debug = true;
 		}
 
 		override public function update():void
@@ -25,8 +26,14 @@ package
 			if(FlxG.mouse.justPressed())
 			{
 				FlxG.mouse.hide();
-				FlxG.switchState(new PlayState());
+				FlxG.camera.fade(0xFFFF0000, 2, onFade)
+				//FlxG.switchState(new PlayState());
 			}
+		}
+
+		private function onFade():void
+		{
+			FlxG.switchState(new PlayState());
 		}
 	}
 }

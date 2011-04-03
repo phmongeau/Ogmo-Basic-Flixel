@@ -78,12 +78,12 @@ package
 			
 			
 			//Update screen vars
-			_screenRows = Math.ceil(FlxG.height/_tileHeight)+1;
+			/*_screenRows = Math.ceil(FlxG.height/_tileHeight)+1;
 			if(_screenRows > heightInTiles)
 				_screenRows = heightInTiles;
 			_screenCols = Math.ceil(FlxG.width/_tileWidth)+1;
 			if(_screenCols > widthInTiles)
-				_screenCols = widthInTiles;
+				_screenCols = widthInTiles;*/
 			
 			//_bbKey = String(TileGraphic);
 			//generateBoundingTiles();

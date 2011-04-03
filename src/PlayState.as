@@ -19,6 +19,7 @@ package
 			//add the layers to the state
 			add(map);
 			add(map2);
+			FlxG.debug = true;
 
 		}
 	}
