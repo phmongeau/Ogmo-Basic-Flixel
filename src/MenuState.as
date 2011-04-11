@@ -26,14 +26,9 @@ package
 			if(FlxG.mouse.justPressed())
 			{
 				FlxG.mouse.hide();
-				FlxG.camera.fade(0xFFFF0000, 2, onFade)
-				//FlxG.switchState(new PlayState());
+				FlxG.switchState(new PlayState());
 			}
 		}
 
-		private function onFade():void
-		{
-			FlxG.switchState(new PlayState());
-		}
 	}
 }

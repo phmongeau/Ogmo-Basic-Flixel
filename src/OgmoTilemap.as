@@ -33,8 +33,8 @@ package
 			
 			totalTiles = widthInTiles * heightInTiles;
 			
-			_block.width = _tileWidth;
-			_block.height = _tileHeight;
+			//_block.width = _tileWidth;
+			//_block.height = _tileHeight;
 			
 			//Initialize the data
 			_data = new Array();
@@ -87,7 +87,7 @@ package
 			
 			//_bbKey = String(TileGraphic);
 			//generateBoundingTiles();
-			refreshHulls();
+			//refreshHulls();
 
 			//_flashRect.x = 0;
 			//_flashRect.y = 0;
