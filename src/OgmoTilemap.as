@@ -1,7 +1,10 @@
 package
 {
 	import org.flixel.*;
+	import org.flixel.system.FlxTile;
+	import org.flixel.system.FlxTilemapBuffer;
 	import flash.display.*;
+	import flash.geom.Rectangle;
 
 	public class OgmoTilemap extends FlxTilemap
 	{		
@@ -46,34 +49,53 @@ package
 			// Not sure yet
 			_rects = new Array(totalTiles);
 			
-			// Set rectTiles
-			for each (i in file.rect)
+			//create tile objects for overlap
+			var i:uint = 0;
+			var l:uint = (_tiles.width/_tileWidth) * (_tiles.height/_tileHeight);
+			l++;
+			_tileObjects = new Array(l);
+			var ac:uint;
+			while(i < l)
 			{
-				var startX:uint = i.@x;
-				var startY:uint = i.@y;
-				var tw:uint = i.@w / _tileWidth;
-				var th:uint = i.@h / _tileHeight;
+				_tileObjects[i] = new FlxTile(this,i,_tileWidth,_tileHeight,true,1);
+				i++;
+			}
+
+			//create debug tiles:
+			_debugTileNotSolid = makeDebugTile(FlxG.BLUE);
+			_debugTilePartial = makeDebugTile(FlxG.PINK);
+			_debugTileSolid = makeDebugTile(FlxG.GREEN);
+			_debugRect = new Rectangle(0,0, _tileWidth, _tileHeight);
+
+			// Set rectTiles
+			var t:XML
+			for each (t in file.rect)
+			{
+				var startX:uint = t.@x;
+				var startY:uint = t.@y;
+				var tw:uint = t.@w / _tileWidth;
+				var th:uint = t.@h / _tileHeight;
 
 				for (var w:uint = 0; w < tw; ++w)
 				{
 					for (var h:uint = 0; h < th; ++h)
 					{
-						this.setTile((startX + (w*_tileWidth))/_tileWidth, (startY + (h*_tileHeight))/_tileHeight, i.@id, true);
+						this.setTile((startX + (w*_tileWidth))/_tileWidth, (startY + (h*_tileHeight))/_tileHeight, t.@id, true);
 					}
 				}
 
 			}
 
 			// Set tiles
-			var i:XML
-			for each (i in file.tile)
+			for each (t in file.tile)
 			{
-				this.setTile((i.@x / _tileWidth), (i.@y / _tileHeight), i.@id, true);
+				this.setTile((t.@x / _tileWidth), (t.@y / _tileHeight), t.@id, true);
 			}
+
 						
 			// Alocate the buffer to hold the rendered tiles
-			var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
-			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;
+			/*var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
+			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;*/
 			//_buffer = new BitmapData(bw,bh,true,0);
 			
 			
