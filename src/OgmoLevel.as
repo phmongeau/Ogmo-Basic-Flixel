@@ -1,6 +1,7 @@
 package
 {
 	import org.flixel.*;
+	import org.flixel.FlxG;
 
 	public class OgmoLevel
 	{

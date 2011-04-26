@@ -18,13 +18,10 @@ package
 		/*
 		   Load a Tilemap type of layer
 		*/ 
-		public function loadTilemap(Layer:XML, TileGraphic:Class):OgmoTilemap
+		public function loadTilemap(Layer:XML, TileGraphic:Class, DrawIndex:uint = 0, CollideIndex:uint = 1):OgmoTilemap
 		{
 			//refresh = true;
 
-			//load graphics
-			_tiles = FlxG.addBitmap(TileGraphic);
-			
 			var file:XML = Layer;
 			
 			//figure out the map dimmesions based on the xml and set variables			
@@ -35,9 +32,23 @@ package
 			heightInTiles = height / _tileHeight;
 			
 			totalTiles = widthInTiles * heightInTiles;
+
+			//load graphics
+			_tiles = FlxG.addBitmap(TileGraphic);
 			
-			//_block.width = _tileWidth;
-			//_block.height = _tileHeight;
+			
+			//create tile objects for overlap
+			var i:uint = 0;
+			var l:uint = (_tiles.width/_tileWidth) * (_tiles.height/_tileHeight);
+			l++;
+			_tileObjects = new Array(l);
+			var ac:uint;
+			while(i < l)
+			{
+				_tileObjects[i] = new FlxTile(this,i,_tileWidth,_tileHeight,(i >= DrawIndex),(i >= CollideIndex)?allowCollisions:NONE);
+				i++;
+			}
+
 			
 			//Initialize the data
 			_data = new Array();
@@ -49,17 +60,6 @@ package
 			// Not sure yet
 			_rects = new Array(totalTiles);
 			
-			//create tile objects for overlap
-			var i:uint = 0;
-			var l:uint = (_tiles.width/_tileWidth) * (_tiles.height/_tileHeight);
-			l++;
-			_tileObjects = new Array(l);
-			var ac:uint;
-			while(i < l)
-			{
-				_tileObjects[i] = new FlxTile(this,i,_tileWidth,_tileHeight,true,1);
-				i++;
-			}
 
 			//create debug tiles:
 			_debugTileNotSolid = makeDebugTile(FlxG.BLUE);
@@ -128,23 +128,34 @@ package
 		*/
 		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
-
+			FlxG.log("entering load grid");
 			var data:String = Layer.toString();
+			FlxG.log("converted to strign");
 			var array:Array = new Array();
 			
 			var l:Array = data.split("\n");
+			FlxG.log("splitted the array");
 			
-			widthInTiles = l[0].length();
+			widthInTiles = l[0].length;
+
+			FlxG.log("found width");
 			
 			var tmpString:String = ""
 			for each(var i:String in l)
 			{
 				tmpString += i;
 			}
+
+			FlxG.log("created string");
 			
 			array = tmpString.split("");
 			data = arrayToCSV(array, widthInTiles);
-			return new FlxTilemap().loadMap(data, TileGraphic);
+			FlxG.log("converted to csv");
+			FlxG.log(data);
+			var tmpMap:FlxTilemap = new FlxTilemap().loadMap(data, TileGraphic);
+			FlxG.log("test");
+			return tmpMap;
+			//return new FlxTilemap().loadMap(data, TileGraphic);
 		}		
 	}
 }

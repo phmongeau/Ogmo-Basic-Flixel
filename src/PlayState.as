@@ -16,11 +16,24 @@ package
 			var map:FlxTilemap = level.loadTilemap("stage", ImgTiles);
 			var map2:FlxTilemap = level.loadTilemap("stage2", ImgTiles);
 
+
+			//Add a sprite just to test collisions
+			var box:FlxSprite = new FlxSprite(300, 200);
+			box.makeGraphic(8,8,0xffffffff);
+			box.acceleration.y = 200;
+			add(box);
+
 			//add the layers to the state
 			add(map);
 			add(map2);
 			FlxG.debug = true;
 
+		}
+
+		override public function update():void
+		{
+			FlxG.collide();
+			super.update();
 		}
 	}
 }
