@@ -128,17 +128,13 @@ package
 		*/
 		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
-			FlxG.log("entering load grid");
 			var data:String = Layer.toString();
-			FlxG.log("converted to strign");
 			var array:Array = new Array();
 			
 			var l:Array = data.split("\n");
-			FlxG.log("splitted the array");
 			
 			widthInTiles = l[0].length;
 
-			FlxG.log("found width");
 			
 			var tmpString:String = ""
 			for each(var i:String in l)
@@ -146,14 +142,10 @@ package
 				tmpString += i;
 			}
 
-			FlxG.log("created string");
 			
 			array = tmpString.split("");
 			data = arrayToCSV(array, widthInTiles);
-			FlxG.log("converted to csv");
-			FlxG.log(data);
 			var tmpMap:FlxTilemap = new FlxTilemap().loadMap(data, TileGraphic);
-			FlxG.log("test");
 			return tmpMap;
 			//return new FlxTilemap().loadMap(data, TileGraphic);
 		}		
