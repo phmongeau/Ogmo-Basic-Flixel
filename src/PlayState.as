@@ -4,28 +4,35 @@ package
 
 	public class PlayState extends FlxState
 	{
-		[Embed(source = 'data/levels/Level1.oel', mimeType = 'application/octet-stream')] private var Level1:Class;
-		[Embed(source="data/tiles.png")] private var ImgTiles:Class;
+		[Embed(source = 'data/levels/Level1.oel', mimeType = 'application/octet-stream')]
+			private var Level1:Class;
+		[Embed(source="data/tiles.png")]
+			private var ImgTiles:Class;
 		
+		private var map:FlxTilemap;
+		private var map2:FlxTilemap;
+
+		private var box:FlxSprite;
+
 		override public function create():void
 		{
 			//Load an Ogmo level File
 			var level:OgmoLevel = new OgmoLevel(new Level1);
 			
 			//Load each layers
-			var map:FlxTilemap = level.loadTilemap("stage", ImgTiles);
-			var map2:FlxTilemap = level.loadTilemap("stage2", ImgTiles);
-
-
-			//Add a sprite just to test collisions
-			var box:FlxSprite = new FlxSprite(300, 200);
-			box.makeGraphic(8,8,0xffffffff);
-			box.acceleration.y = 200;
-			add(box);
+			map = level.loadTilemap("stage", ImgTiles);
+			map2 = level.loadTilemap("stage2", ImgTiles);
 
 			//add the layers to the state
 			add(map);
 			add(map2);
+
+			//Add a sprite just to test collisions
+			box = new FlxSprite(300, 200);
+			box.makeGraphic(8,8,0xffffffff);
+			box.acceleration.y = 200;
+			add(box);
+
 			FlxG.debug = true;
 
 		}
