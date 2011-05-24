@@ -40,6 +40,7 @@ package
 				var patrol:FlxSprite = new FlxSprite(p.@x, p.@y);
 				patrol.makeGraphic(8,8,0xffffffff);
 				add(patrol);
+				patrol.path = new FlxPath();
 
 				//add each node to the FlxPath
 				for each(var n:XML in p.node)
