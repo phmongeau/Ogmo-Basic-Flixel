@@ -8,8 +8,14 @@
 	<tilesets>
 		<tileset name="tiles" image="tiles.png" tileWidth="16" tileHeight="16" />
 	</tilesets>
+	<objects>
+		<object name="patrol" image="square.png" width="8" height="8">
+			<nodes drawObject="true" lineMode="1" />
+		</object>
+	</objects>
 	<layers>
 		<tiles name="stage" gridSize="16" exportTileSize="true" exportTileIDs="true" />
 		<tiles name="stage2" gridSize="16" exportTileSize="true" exportTileIDs="true" />
+		<objects name="actors" gridSize="16" />
 	</layers>
 </project>
