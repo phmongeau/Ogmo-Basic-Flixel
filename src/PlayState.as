@@ -33,6 +33,20 @@ package
 			box.acceleration.y = 200;
 			add(box);
 
+			//Add a little patrolling box to demo FlxPath
+			for each(var p:XML in level.xml.actors[0].patrol)
+			{
+				var patrol:FlxSprite = new FlxSprite(p.@x, p.@y);
+				patrol.makeGraphic(8,8,0xffffffff);
+				add(patrol);
+				patrol.path = new FlxPath();
+				for each(var n:XML in p.node)
+				{
+					patrol.path.add(n.@x, n.@y);
+				}
+				patrol.followPath(patrol.path, 100, FlxObject.PATH_LOOP_FORWARD);
+			}
+
 			FlxG.debug = true;
 
 		}
