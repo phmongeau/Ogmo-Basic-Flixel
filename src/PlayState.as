@@ -36,14 +36,17 @@ package
 			//Add a little patrolling box to demo FlxPath
 			for each(var p:XML in level.xml.actors[0].patrol)
 			{
+				//Create a simple FlxSprite
 				var patrol:FlxSprite = new FlxSprite(p.@x, p.@y);
 				patrol.makeGraphic(8,8,0xffffffff);
 				add(patrol);
-				patrol.path = new FlxPath();
+
+				//add each node to the FlxPath
 				for each(var n:XML in p.node)
 				{
 					patrol.path.add(n.@x, n.@y);
 				}
+				// And, finaly, follow the path
 				patrol.followPath(patrol.path, 100, FlxObject.PATH_LOOP_FORWARD);
 			}
 
