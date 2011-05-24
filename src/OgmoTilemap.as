@@ -1,7 +1,10 @@
 package
 {
 	import org.flixel.*;
+	import org.flixel.system.FlxTile;
+	import org.flixel.system.FlxTilemapBuffer;
 	import flash.display.*;
+	import flash.geom.Rectangle;
 
 	public class OgmoTilemap extends FlxTilemap
 	{		
@@ -15,13 +18,10 @@ package
 		/*
 		   Load a Tilemap type of layer
 		*/ 
-		public function loadTilemap(Layer:XML, TileGraphic:Class):OgmoTilemap
+		public function loadTilemap(Layer:XML, TileGraphic:Class, DrawIndex:uint = 0, CollideIndex:uint = 1):OgmoTilemap
 		{
-			refresh = true;
+			//refresh = true;
 
-			//load graphics
-			_pixels = FlxG.addBitmap(TileGraphic);
-			
 			var file:XML = Layer;
 			
 			//figure out the map dimmesions based on the xml and set variables			
@@ -32,9 +32,23 @@ package
 			heightInTiles = height / _tileHeight;
 			
 			totalTiles = widthInTiles * heightInTiles;
+
+			//load graphics
+			_tiles = FlxG.addBitmap(TileGraphic);
 			
-			_block.width = _tileWidth;
-			_block.height = _tileHeight;
+			
+			//create tile objects for overlap
+			var i:uint = 0;
+			var l:uint = (_tiles.width/_tileWidth) * (_tiles.height/_tileHeight);
+			l++;
+			_tileObjects = new Array(l);
+			var ac:uint;
+			while(i < l)
+			{
+				_tileObjects[i] = new FlxTile(this,i,_tileWidth,_tileHeight,(i >= DrawIndex),(i >= CollideIndex)?allowCollisions:NONE);
+				i++;
+			}
+
 			
 			//Initialize the data
 			_data = new Array();
@@ -46,53 +60,61 @@ package
 			// Not sure yet
 			_rects = new Array(totalTiles);
 			
+
+			//create debug tiles:
+			_debugTileNotSolid = makeDebugTile(FlxG.BLUE);
+			_debugTilePartial = makeDebugTile(FlxG.PINK);
+			_debugTileSolid = makeDebugTile(FlxG.GREEN);
+			_debugRect = new Rectangle(0,0, _tileWidth, _tileHeight);
+
 			// Set rectTiles
-			for each (i in file.rect)
+			var t:XML
+			for each (t in file.rect)
 			{
-				var startX:uint = i.@x;
-				var startY:uint = i.@y;
-				var tw:uint = i.@w / _tileWidth;
-				var th:uint = i.@h / _tileHeight;
+				var startX:uint = t.@x;
+				var startY:uint = t.@y;
+				var tw:uint = t.@w / _tileWidth;
+				var th:uint = t.@h / _tileHeight;
 
 				for (var w:uint = 0; w < tw; ++w)
 				{
 					for (var h:uint = 0; h < th; ++h)
 					{
-						this.setTile((startX + (w*_tileWidth))/_tileWidth, (startY + (h*_tileHeight))/_tileHeight, i.@id, true);
+						this.setTile((startX + (w*_tileWidth))/_tileWidth, (startY + (h*_tileHeight))/_tileHeight, t.@id, true);
 					}
 				}
 
 			}
 
 			// Set tiles
-			var i:XML
-			for each (i in file.tile)
+			for each (t in file.tile)
 			{
-				this.setTile((i.@x / _tileWidth), (i.@y / _tileHeight), i.@id, true);
+				this.setTile((t.@x / _tileWidth), (t.@y / _tileHeight), t.@id, true);
 			}
+
 						
 			// Alocate the buffer to hold the rendered tiles
-			var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
-			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;
-			_buffer = new BitmapData(bw,bh,true,0);
+			/*var bw:uint = (FlxU.ceil(FlxG.width/ _tileWidth) + 1)*_tileWidth;
+			var bh:uint = (FlxU.ceil(FlxG.height / _tileHeight) + 1)*_tileHeight;*/
+			//_buffer = new BitmapData(bw,bh,true,0);
 			
 			
 			//Update screen vars
-			_screenRows = Math.ceil(FlxG.height/_tileHeight)+1;
+			/*_screenRows = Math.ceil(FlxG.height/_tileHeight)+1;
 			if(_screenRows > heightInTiles)
 				_screenRows = heightInTiles;
 			_screenCols = Math.ceil(FlxG.width/_tileWidth)+1;
 			if(_screenCols > widthInTiles)
-				_screenCols = widthInTiles;
+				_screenCols = widthInTiles;*/
 			
-			_bbKey = String(TileGraphic);
-			generateBoundingTiles();
-			refreshHulls();
+			//_bbKey = String(TileGraphic);
+			//generateBoundingTiles();
+			//refreshHulls();
 
-			_flashRect.x = 0;
-			_flashRect.y = 0;
-			_flashRect.width = _buffer.width;
-			_flashRect.height = _buffer.height;
+			//_flashRect.x = 0;
+			//_flashRect.y = 0;
+			//_flashRect.width = _buffer.width;
+			//_flashRect.height = _buffer.height;
 
 			
 			return this;
@@ -106,23 +128,26 @@ package
 		*/
 		public function loadGrid(Layer:XML, TileGraphic:Class):FlxTilemap
 		{
-
 			var data:String = Layer.toString();
 			var array:Array = new Array();
 			
 			var l:Array = data.split("\n");
 			
-			widthInTiles = l[0].length();
+			widthInTiles = l[0].length;
+
 			
 			var tmpString:String = ""
 			for each(var i:String in l)
 			{
 				tmpString += i;
 			}
+
 			
 			array = tmpString.split("");
 			data = arrayToCSV(array, widthInTiles);
-			return new FlxTilemap().loadMap(data, TileGraphic);
+			var tmpMap:FlxTilemap = new FlxTilemap().loadMap(data, TileGraphic);
+			return tmpMap;
+			//return new FlxTilemap().loadMap(data, TileGraphic);
 		}		
 	}
 }

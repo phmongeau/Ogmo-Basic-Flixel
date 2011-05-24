@@ -2,3 +2,4 @@ org/
 *.swf
 .FW.*
 makefile
+tags
